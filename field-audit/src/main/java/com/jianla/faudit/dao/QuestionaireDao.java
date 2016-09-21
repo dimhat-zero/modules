@@ -12,4 +12,5 @@ import com.jianla.faudit.entity.Questionaire;
 public interface QuestionaireDao extends BaseDaoI<Questionaire> {
 
 
+    Questionaire getById(Long id);
 }

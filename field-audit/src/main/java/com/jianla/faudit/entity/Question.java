@@ -18,8 +18,8 @@ public class Question {
     @Column(name="id",nullable = false,unique = true)
     private Long id;
 
-    @Column(name = "qn_id", nullable = false)
-    private Long qnId;
+    @Column(name="org_id",nullable = false)
+    private Long orgId;
 
     @Column(name="type",nullable = false)
     private Short type;
@@ -30,20 +30,22 @@ public class Question {
     @Column(name = "gmt_create",nullable = false)
     private Date  gmtCreate;
 
+    public Question() {
+    }
+
+    public Question(String content, Short type, Date gmtCreate,Long orgId) {
+        this.content = content;
+        this.gmtCreate = gmtCreate;
+        this.type = type;
+        this.orgId = orgId;
+    }
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getQnId() {
-        return qnId;
-    }
-
-    public void setQnId(Long qnId) {
-        this.qnId = qnId;
     }
 
     public Short getType() {
@@ -68,5 +70,24 @@ public class Question {
 
     public void setGmtCreate(Date gmtCreate) {
         this.gmtCreate = gmtCreate;
+    }
+
+    public Long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(Long orgId) {
+        this.orgId = orgId;
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "content='" + content + '\'' +
+                ", id=" + id +
+                ", orgId=" + orgId +
+                ", type=" + type +
+                ", gmtCreate=" + gmtCreate +
+                '}';
     }
 }

@@ -30,6 +30,16 @@ public class Questionaire {
     @Column(name="gmt_create",nullable = false)
     private Date gmtCreate;
 
+    public Questionaire() {
+    }
+
+    public Questionaire(String title, String summary, Date gmtCreate, Long orgId) {
+        this.title = title;
+        this.summary = summary;
+        this.gmtCreate = gmtCreate;
+        this.orgId = orgId;
+    }
+
     public Long getId() {
         return id;
     }
@@ -68,5 +78,16 @@ public class Questionaire {
 
     public void setGmtCreate(Date gmtCreate) {
         this.gmtCreate = gmtCreate;
+    }
+
+    @Override
+    public String toString() {
+        return "Questionaire{" +
+                "gmtCreate=" + gmtCreate +
+                ", id=" + id +
+                ", orgId=" + orgId +
+                ", title='" + title + '\'' +
+                ", summary='" + summary + '\'' +
+                '}';
     }
 }

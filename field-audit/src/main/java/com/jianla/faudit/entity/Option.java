@@ -23,6 +23,14 @@ public class Option {
     @Column(name="content",nullable = false)
     private String content;
 
+    public Option() {
+    }
+
+    public Option(String content, Long questionId) {
+        this.content = content;
+        this.questionId = questionId;
+    }
+
     public Long getId() {
         return id;
     }

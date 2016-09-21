@@ -29,7 +29,7 @@ public class BaseDaoImpl<T> implements BaseDaoI<T> {
 		this.sessionFactory = sessionFactory;
 	}
 
-	private Session getCurrentSession() {
+	protected Session getCurrentSession() {
 		return sessionFactory.getCurrentSession();
 	}
 

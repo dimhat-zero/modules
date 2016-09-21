@@ -3,6 +3,8 @@ package com.jianla.faudit.dao;
 import com.jianla.dao.base.BaseDaoI;
 import com.jianla.faudit.entity.Question;
 
+import java.util.List;
+
 /**
  * 问卷-问题dao
  *
@@ -10,4 +12,7 @@ import com.jianla.faudit.entity.Question;
  * @data : 2016/9/21
  */
 public interface QuestionDao extends BaseDaoI<Question> {
+    Question getById(Long id);
+
+    List<Question> findByIds(List<Long> questionIds);
 }

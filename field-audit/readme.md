@@ -47,13 +47,18 @@
 |字段名|类型|说明|
 |---|---|---|
 |id|bigint|主键|
-|qn_id|bigint|问卷外键|
 |type|tyint|类型|
 |content|varchar|问题陈述|
 |gmt_create|datatime|创建时间|
 
-    说明：类型分为：1.单选 2.多选 3.问答 优先支持单选
+    说明：类型分为：0.单选 1.多选 2.问答 优先支持单选
 
+####qn_question 问卷问题关联表
+|字段名|类型|说明|
+|---|---|---|
+|id|bigint|主键|
+|qn_id|bigint|问卷外键|
+|question_id|bigint|问题外键|
 
 ####option 选项表
 |字段名|类型|说明|

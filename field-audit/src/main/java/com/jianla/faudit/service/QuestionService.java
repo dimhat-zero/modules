@@ -1,5 +1,6 @@
 package com.jianla.faudit.service;
 
+import com.jianla.faudit.dto.QuestionDto;
 import com.jianla.faudit.entity.Option;
 import com.jianla.faudit.entity.Question;
 
@@ -13,18 +14,36 @@ import java.util.List;
  */
 public interface QuestionService {
 
-    void create(Question question);
+    /**
+     * 创建一个问题
+     * @param content 问题内容
+     * @param type 问题类型
+     * @param options 问题选项（空字符串表示用户自定义填写）
+     */
+    void create(Long orgId,String content,Short type,List<String> options);
 
-    void create(Question question,List<Option> options);
+    /**
+     * 修改一个问题
+     * @param id 问题id
+     * @param content 问题内容
+     * @param type 问题类型
+     * @param options 问题选项（空字符串表示用户自定义填写）
+     */
+    void update(Long id,String content,Short type,List<String> options);
 
-    void update(Question question);
-
-    void update(Question question,List<Option> options);
+    /**
+     * 删除一个问题
+     * @param id 问题id
+     */
+    void delete(Long id);
 
     void delete(Question question);
 
     Question getById(Long id);
 
+    QuestionDto getDetailById(Long id);
+
     List<Question> findByOrgId(Long orgId);
 
+    List<QuestionDto> findDetailByIds(List<Long> questionIds);
 }
