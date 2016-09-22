@@ -10,7 +10,7 @@ import java.util.Date;
  * @data : 2016/9/21
  */
 @Entity
-@Table(name="faudit_questionaire")
+@Table(name="fa_questionaire")
 public class Questionaire {
 
     @Id
@@ -29,6 +29,9 @@ public class Questionaire {
 
     @Column(name="gmt_create",nullable = false)
     private Date gmtCreate;
+
+    @Column(name="gmt_modify",nullable = false)
+    private Date gmtModify;
 
     public Questionaire() {
     }
@@ -80,14 +83,24 @@ public class Questionaire {
         this.gmtCreate = gmtCreate;
     }
 
+    public Date getGmtModify() {
+        return gmtModify;
+    }
+
+    public void setGmtModify(Date gmtModify) {
+        this.gmtModify = gmtModify;
+    }
+
     @Override
     public String toString() {
-        return "Questionaire{" +
-                "gmtCreate=" + gmtCreate +
-                ", id=" + id +
-                ", orgId=" + orgId +
-                ", title='" + title + '\'' +
-                ", summary='" + summary + '\'' +
-                '}';
+        final StringBuilder sb = new StringBuilder("Questionaire{");
+        sb.append("id=").append(id);
+        sb.append(", orgId=").append(orgId);
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", summary='").append(summary).append('\'');
+        sb.append(", gmtCreate=").append(gmtCreate);
+        sb.append(", gmtModify=").append(gmtModify);
+        sb.append('}');
+        return sb.toString();
     }
 }

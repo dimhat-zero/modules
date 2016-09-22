@@ -1,7 +1,6 @@
 package com.jianla.faudit.dto;
 
-import com.jianla.faudit.dao.QuestionDao;
-
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,6 +18,10 @@ public class QuestionaireDto {
     private Long orgId;
 
     private List<QuestionDto> questions;
+
+    private Date gmtCreate;
+
+    private Date gmtModify;
 
     public Long getId() {
         return id;
@@ -60,14 +63,33 @@ public class QuestionaireDto {
         this.title = title;
     }
 
+    public Date getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public Date getGmtModify() {
+        return gmtModify;
+    }
+
+    public void setGmtModify(Date gmtModify) {
+        this.gmtModify = gmtModify;
+    }
+
     @Override
     public String toString() {
-        return "QuestionaireDto{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", summary='" + summary + '\'' +
-                ", orgId=" + orgId +
-                ", questions=" + questions +
-                '}';
+        final StringBuilder sb = new StringBuilder("QuestionaireDto{");
+        sb.append("id=").append(id);
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", summary='").append(summary).append('\'');
+        sb.append(", orgId=").append(orgId);
+        sb.append(", questions=").append(questions);
+        sb.append(", gmtCreate=").append(gmtCreate);
+        sb.append(", gmtModify=").append(gmtModify);
+        sb.append('}');
+        return sb.toString();
     }
 }

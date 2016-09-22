@@ -2,7 +2,9 @@ package com.jianla.faudit.service.impl;
 
 import com.jianla.faudit.dao.OptionDao;
 import com.jianla.faudit.dao.QuestionDao;
+import com.jianla.faudit.dto.OptionDto;
 import com.jianla.faudit.dto.QuestionDto;
+import com.jianla.faudit.dto.QuestionType;
 import com.jianla.faudit.entity.Option;
 import com.jianla.faudit.entity.Question;
 import com.jianla.faudit.service.QuestionService;
@@ -34,8 +36,8 @@ public class QuestionServiceImpl implements QuestionService {
 
 
     @Override
-    public void create(Long orgId,String content, Short type, List<String> options) {
-        Question question = new Question(content,type,new Date(),orgId);
+    public void create(Long qnId,String content, Short type, List<String> options) {
+        Question question = new Question(content,type,new Date(),qnId);
         questionDao.save(question);
         Long questionId = question.getId();
         logger.debug("create question[{}] success.",questionId);
@@ -53,7 +55,7 @@ public class QuestionServiceImpl implements QuestionService {
         question.setType(type);
         //delete old options
         Long questionId = question.getId();
-        optionDao.deleteByQuestionid(questionId);
+        optionDao.deleteByQuestionId(questionId);
         //insert new options
         for (String optionStr : options) {
             Option option = new Option(optionStr,questionId);
@@ -71,9 +73,10 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public void delete(Question question) {
-        questionDao.delete(question);
         //delete question options
-        optionDao.deleteByQuestionid(question.getId());
+        optionDao.deleteByQuestionId(question.getId());
+
+        questionDao.delete(question);
     }
 
     @Override
@@ -87,12 +90,22 @@ public class QuestionServiceImpl implements QuestionService {
         Question question = questionDao.getById(id);
         if(question==null) return null;
         QuestionDto dto = new QuestionDto();
-        BeanUtils.copyProperties(question,dto);
-        dto.setType(question.getType());
+        BeanUtils.copyProperties(question,dto,new String[]{"type"});
+        dto.setType(QuestionType.code(question.getType()));
         //find options
-        List<String> optionContents = optionDao.findContentByQuestionId(question.getId());
-        dto.setOptions(optionContents);
+        dto.setOptions(this.findOptionsByQuestionId(question.getId()));
         return dto;
+    }
+
+    private List<OptionDto> findOptionsByQuestionId(Long questionId){
+        List<Option> options = optionDao.findByQuestionId(questionId);
+        List<OptionDto> optionDtos = new ArrayList<>();
+        for (Option option : options) {
+            OptionDto dto = new OptionDto();
+            BeanUtils.copyProperties(option,dto);
+            optionDtos.add(dto);
+        }
+        return optionDtos;
     }
 
     @Override
@@ -107,5 +120,24 @@ public class QuestionServiceImpl implements QuestionService {
             list.add(this.getDetailById(questionId));
         }
         return list;
+    }
+
+    @Override
+    public void deleteByQnId(Long qnId) {
+        List<Long> questionIds = this.findIdsByQnId(qnId);
+        for (Long questionId : questionIds) {
+            this.delete(questionId);
+        }
+    }
+
+    @Override
+    public List<Long> findIdsByQnId(Long qnId){
+        List<Long> questionIds = questionDao.findIdsByQnId(qnId);
+        return questionIds;
+    }
+
+    @Override
+    public List<QuestionDto> findByQnId(Long qnId) {
+        return findDetailByIds(this.findIdsByQnId(qnId));
     }
 }

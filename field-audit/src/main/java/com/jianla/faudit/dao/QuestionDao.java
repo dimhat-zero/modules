@@ -15,4 +15,6 @@ public interface QuestionDao extends BaseDaoI<Question> {
     Question getById(Long id);
 
     List<Question> findByIds(List<Long> questionIds);
+
+    List<Long> findIdsByQnId(Long qnId);
 }

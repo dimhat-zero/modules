@@ -12,7 +12,9 @@ import java.util.List;
  * @data : 2016/9/21
  */
 public interface OptionDao  extends BaseDaoI<Option>{
-    void deleteByQuestionid(Long questionId);
+    void deleteByQuestionId(Long questionId);
 
     List<String> findContentByQuestionId(Long id);
+
+    List<Option> findByQuestionId(Long id);
 }

@@ -1,40 +1,20 @@
-package com.jianla.faudit.entity;
+package com.jianla.faudit.dto;
 
-import javax.persistence.*;
 import java.util.Date;
 
 /**
- * 问卷-答案表
- *
  * @author : zwj
- * @data : 2016/9/21
+ * @data : 2016/9/22
  */
-@Entity
-@Table(name="fa_answer")
-public class Answer {
+public class AnswerDto {
 
-    @Id
-    @GeneratedValue
-    @Column(name="id",unique = true,nullable = false)
     private Long id;
 
-    @Column(name="qn_id",nullable = false)
     private Long qnId;
 
-    @Column(name="content",nullable = false)
     private String content;
 
-    @Column(name="gmt_create",nullable = false)
     private Date gmtCreate;
-
-    public Answer() {
-    }
-
-    public Answer(Long qnId, String content, Date gmtCreate) {
-        this.qnId = qnId;
-        this.content = content;
-        this.gmtCreate = gmtCreate;
-    }
 
     public Long getId() {
         return id;

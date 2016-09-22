@@ -10,4 +10,5 @@ import com.jianla.faudit.entity.Answer;
  * @data : 2016/9/21
  */
 public interface AnswerDao extends BaseDaoI<Answer> {
+    Answer getById(Long id);
 }

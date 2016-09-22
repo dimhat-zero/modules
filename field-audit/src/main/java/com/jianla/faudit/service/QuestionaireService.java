@@ -1,5 +1,6 @@
 package com.jianla.faudit.service;
 
+import com.jianla.faudit.dto.QuestionDto;
 import com.jianla.faudit.dto.QuestionaireDto;
 import com.jianla.faudit.entity.Questionaire;
 
@@ -16,11 +17,11 @@ public interface QuestionaireService {
      * @param orgId 创建人
      * @param title 标题
      * @param summary 摘要
-     * @param questionIds 问题集合
+     * @param questions 问题集合
      */
-    void create(Long orgId,String title,String summary, List<Long> questionIds);
+    void create(Long orgId,String title,String summary, List<QuestionDto> questions);
 
-    void update(Long id,String title,String summary, List<Long> questionIds);
+    void update(Long id,String title,String summary, List<QuestionDto> questions);
 
     void delete(Questionaire questionaire);
 

@@ -10,7 +10,7 @@ import java.util.Date;
  * @data : 2016/9/21
  */
 @Entity
-@Table(name="faudit_question")
+@Table(name="fa_question")
 public class Question {
 
     @Id
@@ -18,8 +18,8 @@ public class Question {
     @Column(name="id",nullable = false,unique = true)
     private Long id;
 
-    @Column(name="org_id",nullable = false)
-    private Long orgId;
+    @Column(name="qn_id",nullable = false)
+    private Long qnId;
 
     @Column(name="type",nullable = false)
     private Short type;
@@ -33,11 +33,11 @@ public class Question {
     public Question() {
     }
 
-    public Question(String content, Short type, Date gmtCreate,Long orgId) {
+    public Question(String content, Short type, Date gmtCreate,Long qnId) {
         this.content = content;
         this.gmtCreate = gmtCreate;
         this.type = type;
-        this.orgId = orgId;
+        this.qnId = qnId;
     }
 
     public Long getId() {
@@ -72,22 +72,24 @@ public class Question {
         this.gmtCreate = gmtCreate;
     }
 
-    public Long getOrgId() {
-        return orgId;
+
+    public Long getQnId() {
+        return qnId;
     }
 
-    public void setOrgId(Long orgId) {
-        this.orgId = orgId;
+    public void setQnId(Long qnId) {
+        this.qnId = qnId;
     }
 
     @Override
     public String toString() {
-        return "Question{" +
-                "content='" + content + '\'' +
-                ", id=" + id +
-                ", orgId=" + orgId +
-                ", type=" + type +
-                ", gmtCreate=" + gmtCreate +
-                '}';
+        final StringBuilder sb = new StringBuilder("Question{");
+        sb.append("id=").append(id);
+        sb.append(", qnId=").append(qnId);
+        sb.append(", type=").append(type);
+        sb.append(", content='").append(content).append('\'');
+        sb.append(", gmtCreate=").append(gmtCreate);
+        sb.append('}');
+        return sb.toString();
     }
 }

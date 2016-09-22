@@ -1,15 +1,13 @@
 package com.jianla.faudit.service.impl;
 
-import com.jianla.faudit.dao.QnQuestionDao;
-import com.jianla.faudit.dao.QuestionDao;
 import com.jianla.faudit.dao.QuestionaireDao;
 import com.jianla.faudit.dto.QuestionDto;
 import com.jianla.faudit.dto.QuestionaireDto;
-import com.jianla.faudit.entity.QnQuestion;
-import com.jianla.faudit.entity.Question;
 import com.jianla.faudit.entity.Questionaire;
 import com.jianla.faudit.service.QuestionService;
 import com.jianla.faudit.service.QuestionaireService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,43 +23,45 @@ import java.util.List;
 @Service
 @Transactional
 public class QuestionaireServiceImpl implements QuestionaireService {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private QuestionaireDao questionaireDao;
-    @Autowired
-    private QnQuestionDao qnQuestionDao;
     @Autowired
     private QuestionService questionService;
 
     @Override
-    public void create(Long orgId, String title, String summary, List<Long> questionIds) {
+    public void create(Long orgId, String title, String summary, List<QuestionDto> questions) {
         Questionaire questionaire = new Questionaire(title,summary,new Date(),orgId);
         questionaireDao.save(questionaire);
         Long questionaireId = questionaire.getId();
         //insert questions
-        for (Long questionId : questionIds) {
-            QnQuestion qnQuestion = new QnQuestion(questionaireId,questionId);
-            qnQuestionDao.save(qnQuestion);
+        for (QuestionDto question : questions) {
+            questionService.create(questionaireId,question.getContent(),question.getType().getCode(),question.getOptionStrs());
         }
+        logger.debug("创建问卷成功！id= {}",questionaireId);
     }
 
     @Override
-    public void update(Long id, String title, String summary, List<Long> questionIds) {
+    public void update(Long id, String title, String summary, List<QuestionDto> questions) {
         Questionaire questionaire = questionaireDao.getById(id);
         if(questionaire==null) return;
         questionaire.setTitle(title);
         questionaire.setSummary(summary);
         questionaireDao.save(questionaire);
         //delete old questions
-        qnQuestionDao.deleteByQnId(id);
+        questionService.deleteByQnId(id);
         //insert questions
-        for (Long questionId : questionIds) {
-            QnQuestion qnQuestion = new QnQuestion(id,questionId);
-            qnQuestionDao.save(qnQuestion);
+        for (QuestionDto question : questions) {
+            questionService.create(id,question.getContent(),question.getType().getCode(),question.getOptionStrs());
         }
     }
 
     @Override
     public void delete(Questionaire questionaire) {
+        //delete all qn questions
+        questionService.deleteByQnId(questionaire.getId());
+        //delete self
         questionaireDao.delete(questionaire);
     }
 
@@ -70,8 +70,6 @@ public class QuestionaireServiceImpl implements QuestionaireService {
         Questionaire questionaire = questionaireDao.getById(id);
         if(questionaire!=null){
             this.delete(questionaire);
-            //delete qn-question
-            qnQuestionDao.deleteByQnId(id);
         }
     }
 
@@ -88,8 +86,7 @@ public class QuestionaireServiceImpl implements QuestionaireService {
         QuestionaireDto dto = new QuestionaireDto();
         BeanUtils.copyProperties(questionaire,dto);
         //find questions
-        List<Long> questionIds = qnQuestionDao.findQuestionIdsByQnId(questionaire.getId());
-        List<QuestionDto> questions = questionService.findDetailByIds(questionIds);
+        List<QuestionDto> questions = questionService.findByQnId(id);
         dto.setQuestions(questions);
         return dto;
     }

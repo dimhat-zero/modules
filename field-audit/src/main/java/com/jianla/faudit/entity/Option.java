@@ -9,7 +9,7 @@ import javax.persistence.*;
  * @data : 2016/9/21
  */
 @Entity
-@Table(name = "faudit_option")
+@Table(name = "fa_option")
 public class Option {
 
     @Id
