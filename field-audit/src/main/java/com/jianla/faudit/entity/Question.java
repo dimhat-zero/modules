@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * 问卷-问题表
+ * 问题表
  *
  * @author : zwj
  * @data : 2016/9/21
@@ -18,8 +18,8 @@ public class Question {
     @Column(name="id",nullable = false,unique = true)
     private Long id;
 
-    @Column(name="qn_id",nullable = false)
-    private Long qnId;
+    @Column(name="org_id",nullable = false)
+    private Long orgId;
 
     @Column(name="type",nullable = false)
     private Short type;
@@ -33,11 +33,11 @@ public class Question {
     public Question() {
     }
 
-    public Question(String content, Short type, Date gmtCreate,Long qnId) {
+    public Question(String content, Short type, Date gmtCreate,Long orgId) {
         this.content = content;
         this.gmtCreate = gmtCreate;
         this.type = type;
-        this.qnId = qnId;
+        this.orgId = orgId;
     }
 
     public Long getId() {
@@ -73,23 +73,23 @@ public class Question {
     }
 
 
-    public Long getQnId() {
-        return qnId;
-    }
-
-    public void setQnId(Long qnId) {
-        this.qnId = qnId;
-    }
-
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Question{");
         sb.append("id=").append(id);
-        sb.append(", qnId=").append(qnId);
+        sb.append(", orgId=").append(orgId);
         sb.append(", type=").append(type);
         sb.append(", content='").append(content).append('\'');
         sb.append(", gmtCreate=").append(gmtCreate);
         sb.append('}');
         return sb.toString();
+    }
+
+    public Long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(Long orgId) {
+        this.orgId = orgId;
     }
 }

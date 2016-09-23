@@ -3,14 +3,14 @@ package com.jianla.faudit.entity;
 import javax.persistence.*;
 
 /**
- * 服务关联问卷表
+ * 服务关联问题表
  *
  * @author : zwj
  * @data : 2016/9/21
  */
 @Entity
-@Table(name="faudit_service_qn")
-public class ServiceQn {
+@Table(name="fa_service_question")
+public class ServiceQuestion {
 
     @Id
     @GeneratedValue
@@ -20,8 +20,16 @@ public class ServiceQn {
     @Column(name="service_id",nullable = false)
     private Long serviceId;
 
-    @Column(name="qn_id",nullable = false)
-    private Long qnId;
+    @Column(name="question_id",nullable = false)
+    private Long questionId;
+
+    public ServiceQuestion(Long serviceId, Long questionId) {
+        this.serviceId=serviceId;
+        this.questionId=questionId;
+    }
+
+    public ServiceQuestion() {
+    }
 
     public Long getId() {
         return id;
@@ -39,11 +47,11 @@ public class ServiceQn {
         this.serviceId = serviceId;
     }
 
-    public Long getQnId() {
-        return qnId;
+    public Long getQuestionId() {
+        return questionId;
     }
 
-    public void setQnId(Long qnId) {
-        this.qnId = qnId;
+    public void setQuestionId(Long questionId) {
+        this.questionId = questionId;
     }
 }

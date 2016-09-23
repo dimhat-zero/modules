@@ -1,7 +1,6 @@
 package com.jianla.faudit.service;
 
 import com.jianla.faudit.dto.OptionDto;
-import com.jianla.faudit.dto.QuestionaireDto;
 import com.jianla.faudit.service.base.ServiceTestBase;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class AnswerServiceTest extends ServiceTestBase {
         List<OptionDto> options = new ArrayList<>();
         options.add(new OptionDto(40L));
         options.add(new OptionDto(42L,"我自已填的"));
-        answerService.submitAnswer(3L,options);
+        //answerService.submitAnswer(3L,options);
     }
 
     @Test
@@ -31,14 +30,11 @@ public class AnswerServiceTest extends ServiceTestBase {
         List<OptionDto> options = new ArrayList<>();
         options.add(new OptionDto(43L));
         options.add(new OptionDto(42L,"我自已填的修改"));
-        answerService.modifyAnswer(7L,options);
     }
 
     @Test
     public void getAnswerById(){
 
-        QuestionaireDto dto = answerService.getAnswerById(7L);
-        logger.debug("dto : {}",dto);
     }
 
 }

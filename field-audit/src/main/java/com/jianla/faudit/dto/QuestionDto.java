@@ -1,8 +1,5 @@
 package com.jianla.faudit.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,30 +21,12 @@ public class QuestionDto {
 
     private QuestionType type;
 
-    private Long qnId;
+    private Long orgId;
 
     private List<OptionDto> options;
 
     public QuestionDto() {
 
-    }
-
-    public QuestionDto(String content, QuestionType type, List<String> optionStrs) {
-        this.content = content;
-        this.type = type;
-        this.options = new ArrayList<>();
-        for (String option : optionStrs) {
-            this.options.add(new OptionDto(option));
-        }
-    }
-
-    public QuestionDto(String content, QuestionType type, String[] optionStrs) {
-        this.content = content;
-        this.type = type;
-        this.options = new ArrayList<>();
-        for (String option : optionStrs) {
-            this.options.add(new OptionDto(option));
-        }
     }
 
     public String getContent() {
@@ -74,15 +53,6 @@ public class QuestionDto {
         this.options = options;
     }
 
-    public Short getTypeCode(){
-        return type.getCode();
-    }
-
-    public void setTypeCode(Short typecode){
-        type = QuestionType.code(typecode);
-    }
-
-    @JSONField(serialize = false)
     public QuestionType getType() {
         return type;
     }
@@ -91,29 +61,12 @@ public class QuestionDto {
         this.type = type;
     }
 
-    @JSONField(serialize = false)
-    public Long getQnId() {
-        return qnId;
+    public Long getOrgId() {
+        return orgId;
     }
 
-    public void setQnId(Long qnId) {
-        this.qnId = qnId;
-    }
-
-    @JSONField(serialize = false)
-    public List<String> getOptionStrs(){
-        List<String> list = new ArrayList<>();
-        for (OptionDto option : options) {
-            list.add(option.getContent());
-        }
-        return list;
-    }
-
-    public void setOptionStrs(List<String> optionStrs) {
-        this.options = new ArrayList<>();
-        for (String optionStr : optionStrs) {
-            this.options.add(new OptionDto(optionStr));
-        }
+    public void setOrgId(Long orgId) {
+        this.orgId = orgId;
     }
 
     @Override
@@ -122,7 +75,7 @@ public class QuestionDto {
         sb.append("id=").append(id);
         sb.append(", content='").append(content).append('\'');
         sb.append(", type=").append(type);
-        sb.append(", qnId=").append(qnId);
+        sb.append(", orgId=").append(orgId);
         sb.append(", options=").append(options);
         sb.append('}');
         return sb.toString();

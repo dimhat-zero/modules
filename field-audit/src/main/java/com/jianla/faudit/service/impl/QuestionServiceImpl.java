@@ -8,6 +8,8 @@ import com.jianla.faudit.dto.QuestionType;
 import com.jianla.faudit.entity.Option;
 import com.jianla.faudit.entity.Question;
 import com.jianla.faudit.service.QuestionService;
+import com.jianla.model.base.Page;
+import com.jianla.util.PageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -36,8 +38,8 @@ public class QuestionServiceImpl implements QuestionService {
 
 
     @Override
-    public void create(Long qnId,String content, Short type, List<String> options) {
-        Question question = new Question(content,type,new Date(),qnId);
+    public void create(Long orgId, String content, Short type, List<String> options) {
+        Question question = new Question(content,type,new Date(), orgId);
         questionDao.save(question);
         Long questionId = question.getId();
         logger.debug("create question[{}] success.",questionId);
@@ -67,21 +69,17 @@ public class QuestionServiceImpl implements QuestionService {
     public void delete(Long id) {
         Question question = questionDao.getById(id);
         if(question!=null){
-            this.delete(question);
+            //delete question options
+            optionDao.deleteByQuestionId(question.getId());
+            //delete self
+            questionDao.delete(question);
         }
-    }
-
-    @Override
-    public void delete(Question question) {
-        //delete question options
-        optionDao.deleteByQuestionId(question.getId());
-
-        questionDao.delete(question);
     }
 
     @Override
     public Question getById(Long id) {
         Question question = questionDao.getById(id);
+
         return question;
     }
 
@@ -89,9 +87,7 @@ public class QuestionServiceImpl implements QuestionService {
     public QuestionDto getDetailById(Long id) {
         Question question = questionDao.getById(id);
         if(question==null) return null;
-        QuestionDto dto = new QuestionDto();
-        BeanUtils.copyProperties(question,dto,new String[]{"type"});
-        dto.setType(QuestionType.code(question.getType()));
+        QuestionDto dto  = trans(question);
         //find options
         dto.setOptions(this.findOptionsByQuestionId(question.getId()));
         return dto;
@@ -108,36 +104,73 @@ public class QuestionServiceImpl implements QuestionService {
         return optionDtos;
     }
 
-    @Override
-    public List<Question> findByOrgId(Long orgId) {
-        return questionDao.find("from Question where orgId = ?",new Object[]{orgId});
-    }
 
     @Override
-    public List<QuestionDto> findDetailByIds(List<Long> questionIds) {
+    public Page<QuestionDto> find(Page page,QuestionDto question) {
+
+        String hql = "from Question where 1=1";
+        List<Object> values= new ArrayList<>();
+        hql = addWhere(hql,values,question);
+
+        //add count
+        Long count = questionDao.count("select count(*) "+hql, values);
+        page.setTotalCount(count);
+        if(count==0) return page;
+        //add order by
+        hql = PageUtil.addOrderBy(hql, page);
+        //add list
+        List<Question> questions = questionDao.find(hql, values,page.getPageNo(),page.getPageSize());
+        page.setResult(trans(questions));
+        return page;
+    }
+
+
+    private String addWhere(String hqlStr, List<Object> values, QuestionDto question) {
+        StringBuilder hql = new StringBuilder(hqlStr);
+        if(question.getId()!=null){
+            hql.append(" and id = ?");
+            values.add(question.getId());
+            return hql.toString();
+        }
+        if(question.getOrgId()!=null){
+            hql.append(" and orgId = ?");
+            values.add(question.getOrgId());
+        }
+        if(question.getContent()!=null){
+            hql.append(" and content like ?");
+            values.add("%"+question.getContent()+"%");
+        }
+        if(question.getType()!=null){
+            hql.append(" and type = ?");
+            values.add(question.getType());
+        }
+        return hql.toString();
+    }
+
+
+    /*
+     trans
+     */
+    private Question trans(QuestionDto dto) {
+        Question question = new Question();
+        BeanUtils.copyProperties(dto,question,new String[]{"type"});
+        question.setType(dto.getType().getCode());
+        return question;
+    }
+
+    private QuestionDto trans(Question question) {
+        QuestionDto dto= new QuestionDto();
+        BeanUtils.copyProperties(question,dto,new String[]{"type"});
+        dto.setType(QuestionType.code(question.getType()));
+        return dto;
+    }
+
+    private List<QuestionDto> trans(List<Question> questions){
         List<QuestionDto> list = new ArrayList<>();
-        for (Long questionId : questionIds) {
-            list.add(this.getDetailById(questionId));
+        for (Question question : questions) {
+            list.add(trans(question));
         }
         return list;
     }
 
-    @Override
-    public void deleteByQnId(Long qnId) {
-        List<Long> questionIds = this.findIdsByQnId(qnId);
-        for (Long questionId : questionIds) {
-            this.delete(questionId);
-        }
-    }
-
-    @Override
-    public List<Long> findIdsByQnId(Long qnId){
-        List<Long> questionIds = questionDao.findIdsByQnId(qnId);
-        return questionIds;
-    }
-
-    @Override
-    public List<QuestionDto> findByQnId(Long qnId) {
-        return findDetailByIds(this.findIdsByQnId(qnId));
-    }
 }

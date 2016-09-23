@@ -1,6 +1,7 @@
 package com.jianla.faudit.dto;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author : zwj
@@ -10,11 +11,13 @@ public class AnswerDto {
 
     private Long id;
 
-    private Long qnId;
+    private List<QuestionDto> questionDtos;
 
-    private String content;
+    private List<QuestionAnswer> questionAnswers;
 
     private Date gmtCreate;
+
+    private Long fauditId;
 
     public Long getId() {
         return id;
@@ -24,20 +27,28 @@ public class AnswerDto {
         this.id = id;
     }
 
-    public Long getQnId() {
-        return qnId;
+    public Long getFauditId() {
+        return fauditId;
     }
 
-    public void setQnId(Long qnId) {
-        this.qnId = qnId;
+    public void setFauditId(Long fauditId) {
+        this.fauditId = fauditId;
     }
 
-    public String getContent() {
-        return content;
+    public List<QuestionDto> getQuestionDtos() {
+        return questionDtos;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setQuestionDtos(List<QuestionDto> questionDtos) {
+        this.questionDtos = questionDtos;
+    }
+
+    public List<QuestionAnswer> getQuestionAnswers() {
+        return questionAnswers;
+    }
+
+    public void setQuestionAnswers(List<QuestionAnswer> questionAnswers) {
+        this.questionAnswers = questionAnswers;
     }
 
     public Date getGmtCreate() {

@@ -22,7 +22,8 @@ new Vue({
         newTodo:'',
         todos:[
             {text:'Add some todo'}
-        ]
+        ],
+        url:'hahaha'
     },
 
     methods:{
@@ -37,3 +38,37 @@ new Vue({
         }
     }
 });
+var vm3 = new Vue({
+    el:'#app3',
+    data:{
+        a:1,
+        checkedNames: [],
+        selected:'B',
+        age:123
+    },
+    computed:{
+        b:function () {
+            return this.a+1;
+        }
+    }
+})
+var vm4 = new Vue({
+    el:'#app4',
+    data:{
+        show:true
+    },
+    methods:{
+        changeShow:function () {
+            this.show = !this.show;
+        }
+    }
+})
+
+var MyComponent = Vue.extend({
+    template:'<div>A custom component</div>'
+});
+//全局注册
+Vue.component('my-component',MyComponent);
+new Vue({
+    el:'#example'
+})

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * 问卷-答案表
+ * 答案表
  *
  * @author : zwj
  * @data : 2016/9/21
@@ -18,11 +18,11 @@ public class Answer {
     @Column(name="id",unique = true,nullable = false)
     private Long id;
 
-    @Column(name="qn_id",nullable = false)
-    private Long qnId;
-
     @Column(name="content",nullable = false)
     private String content;
+
+    @Column(name="faudit_id")
+    private Long fauditId;
 
     @Column(name="gmt_create",nullable = false)
     private Date gmtCreate;
@@ -30,10 +30,18 @@ public class Answer {
     public Answer() {
     }
 
-    public Answer(Long qnId, String content, Date gmtCreate) {
-        this.qnId = qnId;
+    public Answer(Long fauditId,String content, Date gmtCreate) {
+        this.fauditId =fauditId;
         this.content = content;
         this.gmtCreate = gmtCreate;
+    }
+
+    public Long getFauditId() {
+        return fauditId;
+    }
+
+    public void setFauditId(Long fauditId) {
+        this.fauditId = fauditId;
     }
 
     public Long getId() {
@@ -42,14 +50,6 @@ public class Answer {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getQnId() {
-        return qnId;
-    }
-
-    public void setQnId(Long qnId) {
-        this.qnId = qnId;
     }
 
     public String getContent() {

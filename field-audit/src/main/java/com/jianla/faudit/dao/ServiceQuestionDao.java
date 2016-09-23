@@ -1,7 +1,7 @@
 package com.jianla.faudit.dao;
 
 import com.jianla.dao.base.BaseDaoI;
-import com.jianla.faudit.entity.ServiceQn;
+import com.jianla.faudit.entity.ServiceQuestion;
 
 /**
  * 服务-问卷 dao
@@ -9,5 +9,5 @@ import com.jianla.faudit.entity.ServiceQn;
  * @author : zwj
  * @data : 2016/9/21
  */
-public interface ServiceQnDao extends BaseDaoI<ServiceQn> {
+public interface ServiceQuestionDao extends BaseDaoI<ServiceQuestion> {
 }

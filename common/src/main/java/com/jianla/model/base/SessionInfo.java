@@ -1,7 +1,6 @@
 package com.jianla.model.base;
 
 
-import com.jianla.web.Subject;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -12,7 +11,7 @@ import java.util.Set;
  * @author 孙宇
  * 
  */
-public class SessionInfo implements Serializable,Subject {
+public class SessionInfo implements Serializable {
 
 	/**
 	 * 
@@ -280,22 +279,6 @@ public class SessionInfo implements Serializable,Subject {
 		return loginName;
 	}
 
-
-	@Override
-	public Serializable identifier() {
-		return loginName;
-	}
-
-	@Override
-	public Set<String> getPerms() {
-		return perms;
-	}
-
-	@Override
-	public Set<String> getRoles() {
-		return roles;
-	}
-
 	public void setRoles(Set<String> roles) {
 		this.roles = roles;
 	}
@@ -304,13 +287,4 @@ public class SessionInfo implements Serializable,Subject {
 		this.perms = perms;
 	}
 
-	@Override
-	public long getAuthTime() {
-		return authTime;
-	}
-
-	@Override
-	public void setAuthTime(long authTime) {
-		this.authTime = authTime;
-	}
 }

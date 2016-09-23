@@ -11,7 +11,7 @@
 
 
     <!-- 开启controller注解支持 -->
-    <context:component-scan base-package="com.jianla.controller">
+    <context:component-scan base-package="com.jianla.*.controller">
         <context:include-filter type="annotation"
                                 expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
@@ -39,9 +39,8 @@
     <mvc:default-servlet-handler />
 
     <!-- 静态资源映射 -->
-    <mvc:resources mapping="/static/**" location="/static/" />
     <mvc:resources mapping="/js/**" location="/js/" />
-    <mvc:resources mapping="/image/**" location="/image/"/>
+    <mvc:resources mapping="/image/**" location="/img/"/>
     <mvc:resources mapping="/css/**" location="/css/"/>
 
     <!-- 配置JSP视图 -->
@@ -60,43 +59,16 @@
           class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
     </bean>
 
-    <!-- 通用异常处理 -->
+    <!-- 通用异常处理
     <bean class="com.jianla.web.DefaultExceptionHandler" />
-    <bean class="com.jianla.web.InitBinderHandler" />
+    <bean class="com.jianla.web.InitBinderHandler" />-->
 
-    <!-- 拦截器配置 -->
-    <mvc:interceptors>
-        <!-- 权限拦截器配置 -->
-        <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-            <bean name="authInterceptor" class="com.jianla.web.interceptor.RefreshableAuthInterceptor"/>
-        </mvc:interceptor>
-    </mvc:interceptors>
-
-    <!-- 下面是数据验证 -->
-    <!-- 国际化的消息资源文件（本系统中主要用于显示/错误消息定制） -->
-    <bean id="messageSource"
-          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basenames">
-            <list>
-                <value>classpath:messages</value>
-            </list>
-        </property>
-        <property name="useCodeAsDefaultMessage" value="true" />
-        <property name="defaultEncoding" value="UTF-8" />
-        <property name="cacheSeconds" value="60" />
-    </bean>
 
     <!-- 以下 validator ConversionService 在使用 mvc:annotation-driven 会 自动注册 -->
     <bean id="validator"
           class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
         <!-- 如果不加默认到 使用classpath下的 ValidationMessages.properties -->
-        <property name="validationMessageSource" ref="messageSource" />
     </bean>
-
-    <!--自动化日志-->
-    <aop:aspectj-autoproxy proxy-target-class="true"/>
-    <bean class="com.jianla.web.interceptor.LogAspect"/>
 
 </beans>

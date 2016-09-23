@@ -1,12 +1,62 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        /* 必需 */
+        .expand-transition {
+            transition: all .3s ease;
+            height: 30px;
+            padding: 10px;
+            background-color: #eee;
+            overflow: hidden;
+        }
+
+        /* .expand-enter 定义进入的开始状态 */
+        /* .expand-leave 定义离开的结束状态 */
+        .expand-enter, .expand-leave {
+            height: 0;
+            padding: 0 10px;
+            opacity: 0;
+        }
+
+        .bounce-transition {
+            display: inline-block; /* 否则 scale 动画不起作用 */
+        }
+        .bounce-enter {
+            animation: bounce-in .5s;
+        }
+        .bounce-leave {
+            animation: bounce-out .5s;
+        }
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        @keyframes bounce-out {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(0);
+            }
+        }
+    </style>
 </head>
 <body>
     <div id="app">
-        {{message}}
+        {{message | capitalize}}
         <input v-model="message">
 
         <ul>
@@ -23,9 +73,59 @@
         <ul>
             <li v-for="todo in todos">
                 {{todo.text}}
-                <button v-on:click="removeTodo($index)">X</button>
+                <button @click="removeTodo($index)">X</button>
             </li>
         </ul>
+
+        <p v-if="greeting">Hello!</p>
+        <a :href="url">bind url</a>
+    </div>
+    ----------------------------------
+    <div id="app3">
+        a= {{a}},b={{b}}
+
+        <input type="checkbox" id="checkbox" v-model="checked">
+        <label for="checkbox">{{ checked }}</label>
+
+        <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+        <label for="jack">Jack</label>
+        <input type="checkbox" id="john" value="John" v-model="checkedNames">
+        <label for="john">John</label>
+        <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+        <label for="mike">Mike</label>
+        <br>
+        <span>Checked names: {{ checkedNames | json }}</span>
+
+        <input type="radio" id="one" value="One" v-model="picked">
+        <label for="one">One</label>
+        <br>
+        <input type="radio" id="two" value="Two" v-model="picked">
+        <label for="two">Two</label>
+        <br>
+        <span>Picked: {{ picked }}</span>
+
+        <select v-bind:value="selected">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <span>Selected: {{ selected }}</span>
+
+        <input v-model="age" lazy number>
+        {{age}}
+
+    </div>
+    ----------------------------------
+    <div id="app4">
+        <div v-if="show" transition="expand">hello</div>
+
+        <span v-show="show" transition="bounce">Look at me!</span>
+        <br>
+        <button @click="changeShow()">toggle</button>
+    </div>
+    ----------------------------------
+    <div id="example">
+        <my-component></my-component>
     </div>
     <script src="vue.js"></script>
     <script src="index.js"></script>

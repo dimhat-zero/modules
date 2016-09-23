@@ -1,24 +1,8 @@
 package com.jianla.faudit.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.jianla.faudit.dao.AnswerDao;
-import com.jianla.faudit.dto.OptionDto;
-import com.jianla.faudit.dto.QuestionDto;
-import com.jianla.faudit.dto.QuestionaireDto;
-import com.jianla.faudit.entity.Answer;
-import com.jianla.faudit.exception.FauditException;
 import com.jianla.faudit.service.AnswerService;
-import com.jianla.faudit.service.QuestionaireService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 在服务器端进行选择：比较复杂但安全
@@ -30,50 +14,48 @@ import java.util.Map;
 @Transactional
 public class AnswerServiceImpl implements AnswerService {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    /*private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private AnswerDao answerDao;
 
-    @Autowired
-    private QuestionaireService questionaireService;
-
     @Override
-    public Answer submitAnswer(Long qnId, List<OptionDto> options) {
-        QuestionaireDto questionaireDto = questionaireService.getDetailById(qnId);
-        if(questionaireDto==null){
-            throw new FauditException("问卷不存在");
-        }
-        return snapshotAnswer(questionaireDto,options);
+    public Answer submitAnswer(Long fauditId, List<QuestionAnswer> questionAnswers) {
+
+        Answer answer = new Answer();
+
+        return null;
     }
 
     @Override
     public Answer submitAnswer(Long qnId, List<OptionDto> options, long version) {
-        QuestionaireDto questionaireDto = questionaireService.getDetailById(qnId);
-        if(questionaireDto==null){
-            throw new FauditException("问卷不存在");
-        }
-        long dbVersion = questionaireDto.getGmtModify().getTime();
-        if(dbVersion!=version){
-            throw new FauditException("问卷已更新，请刷新页面");
-        }
-        return snapshotAnswer(questionaireDto,options);
+//        QuestionnaireDto questionnaireDto = questionnaireService.getDetailById(qnId);
+//        if(questionnaireDto==null){
+//            throw new FauditException("问卷不存在");
+//        }
+//        long dbVersion = questionnaireDto.getGmtModify().getTime();
+//        if(dbVersion!=version){
+//            throw new FauditException("问卷已更新，请刷新页面");
+//        }
+//        return snapshotAnswer(questionnaireDto,options);
+        return null;
     }
 
-    private Answer snapshotAnswer(QuestionaireDto questionaireDto, List<OptionDto> options){
-        this.selectOptions(questionaireDto,options);
-        //保存
-        String snapshotStr = this.snapshot(questionaireDto);
-        Answer answer = new Answer(questionaireDto.getId(),snapshotStr,new Date());
-        answerDao.save(answer);
-        return answer;
+    private Answer snapshotAnswer(QuestionnaireDto questionnaireDto, List<OptionDto> options){
+//        this.selectOptions(questionnaireDto,options);
+//        //保存
+//        String snapshotStr = this.snapshot(questionnaireDto);
+//        Answer answer = new Answer(questionnaireDto.getId(),snapshotStr,new Date());
+//        answerDao.save(answer);
+//        return answer;
+        return null;
     }
 
     //自动选择选项
-    private void selectOptions(QuestionaireDto questionaireDto,List<OptionDto> options){
+    private void selectOptions(QuestionnaireDto questionnaireDto,List<OptionDto> options){
         //构建选项map
         Map<Long,OptionDto> optionMap = new HashMap<>();
-        for (QuestionDto questionDto : questionaireDto.getQuestions()) {
+        for (QuestionDto questionDto : questionnaireDto.getQuestions()) {
             for (OptionDto optionDto : questionDto.getOptions()) {
                 optionDto.setSelected(false);
                 optionDto.setRemark(null);
@@ -95,10 +77,10 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public void modifyAnswer(Long id,List<OptionDto> options) {
         Answer answer = answerDao.getById(id);
-        QuestionaireDto questionaireDto = this.restore(answer.getContent());
-        this.selectOptions(questionaireDto,options);
+        QuestionnaireDto questionnaireDto = this.restore(answer.getContent());
+        this.selectOptions(questionnaireDto,options);
         //保存
-        String snapshotStr = this.snapshot(questionaireDto);
+        String snapshotStr = this.snapshot(questionnaireDto);
         answer.setContent(snapshotStr);
         answerDao.update(answer);
 
@@ -108,14 +90,14 @@ public class AnswerServiceImpl implements AnswerService {
         return JSON.toJSONString(obj);
     }
 
-    private QuestionaireDto restore(String snapshotStr){
-        QuestionaireDto questionaireDto = JSON.parseObject(snapshotStr, QuestionaireDto.class);
-        return questionaireDto;
+    private QuestionnaireDto restore(String snapshotStr){
+        QuestionnaireDto questionnaireDto = JSON.parseObject(snapshotStr, QuestionnaireDto.class);
+        return questionnaireDto;
     }
 
     @Override
-    public QuestionaireDto getAnswerById(Long id) {
+    public QuestionnaireDto getAnswerById(Long id) {
         Answer answer = answerDao.getById(id);
         return this.restore(answer.getContent());
-    }
+    }*/
 }
