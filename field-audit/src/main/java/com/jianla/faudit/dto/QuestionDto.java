@@ -26,7 +26,6 @@ public class QuestionDto {
     private List<OptionDto> options;
 
     public QuestionDto() {
-
     }
 
     public String getContent() {

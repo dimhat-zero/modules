@@ -20,4 +20,6 @@ public interface ServiceQuestionService {
     void deleteByServiceId(Long serviceId);
 
     List<QuestionDto> findQuestionsByServiceId(Long serviceId);
+
+    List<Long> findServiceIdByQuestionId(Long id);
 }

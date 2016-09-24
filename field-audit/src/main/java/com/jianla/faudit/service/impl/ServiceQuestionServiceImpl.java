@@ -54,4 +54,9 @@ public class ServiceQuestionServiceImpl implements ServiceQuestionService {
         }
         return result;
     }
+
+    @Override
+    public List<Long> findServiceIdByQuestionId(Long id) {
+        return serviceQuestionDao.findServiceIdByQuestionId(id);
+    }
 }

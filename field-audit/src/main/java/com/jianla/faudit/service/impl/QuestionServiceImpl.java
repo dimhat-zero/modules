@@ -120,7 +120,7 @@ public class QuestionServiceImpl implements QuestionService {
         hql = PageUtil.addOrderBy(hql, page);
         //add list
         List<Question> questions = questionDao.find(hql, values,page.getPageNo(),page.getPageSize());
-        page.setResult(trans(questions));
+        page.setResult(trans(questions,true));
         return page;
     }
 
@@ -159,16 +159,23 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     private QuestionDto trans(Question question) {
+        return trans(question,false);
+    }
+
+    private QuestionDto trans(Question question,boolean withOptions) {
         QuestionDto dto= new QuestionDto();
         BeanUtils.copyProperties(question,dto,new String[]{"type"});
         dto.setType(QuestionType.code(question.getType()));
+        if(withOptions){
+            dto.setOptions(this.findOptionsByQuestionId(question.getId()));
+        }
         return dto;
     }
 
-    private List<QuestionDto> trans(List<Question> questions){
+    private List<QuestionDto> trans(List<Question> questions,Boolean withOptions){
         List<QuestionDto> list = new ArrayList<>();
         for (Question question : questions) {
-            list.add(trans(question));
+            list.add(trans(question,withOptions));
         }
         return list;
     }
