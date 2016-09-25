@@ -21,7 +21,9 @@ Vue.component('page',{
             var arr = [];
             var t = parseInt(this.visible/2);
             console.log(this.start+"--"+this.total);
-            if(this.start<=t){
+            if(this.visible>=this.total){
+            }
+            else if(this.start<=t){
                 right = this.visible;
             }else if(this.start>=this.total-t){
                 left = this.total - this.visible;

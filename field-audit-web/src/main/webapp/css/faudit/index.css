@@ -10,3 +10,7 @@
     padding: 0 10px;
     opacity: 0;
 }
+/*未编译完不出现*/
+[v-cloak] {
+    display: none;
+}

@@ -29,19 +29,18 @@ var vm = new Vue({
                 }
             });
         },
-        deleteQuestion:function (index) {
+        deleteQuestion:function (index,question) {
             var self = this;
-            var question = self.questions[index];
-            if(confirm("是否确定删除问题【"+question.content+"】？")){
+            notie.confirm("是否确定删除问题【"+question.content+"】？","是，确认删除！","否，我再想想...",function () {
                 $.post("/question/"+question.id+"/delete",function (json) {
                     if(typeof(json)!="object") json=JSON.parse(json);
                     if(json && json.success){
                         self.findQuestions();
                     }else{
-                        alert(json.msg);
+                        notie.alert('error', json.msg, 3);
                     }
                 });
-            }
+            });
         }
     }
 });

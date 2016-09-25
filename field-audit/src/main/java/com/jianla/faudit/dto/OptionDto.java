@@ -15,21 +15,12 @@ public class OptionDto {
 
     private Long questionId;
 
-    private Boolean selected;//是否被选择
-
-    private String remark;//用户自填内容
-
     public OptionDto(String content) {
         this.content = content;
     }
 
     public OptionDto(Long id) {
         this.id = id;
-    }
-
-    public OptionDto(Long id, String remark) {
-        this.id = id;
-        this.remark = remark;
     }
 
     public OptionDto() {
@@ -60,21 +51,6 @@ public class OptionDto {
         this.questionId = questionId;
     }
 
-    public Boolean getSelected() {
-        return selected;
-    }
-
-    public void setSelected(Boolean selected) {
-        this.selected = selected;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
 
     //是否用户自定义填写
     public boolean custom(){
@@ -87,8 +63,6 @@ public class OptionDto {
         sb.append("id=").append(id);
         sb.append(", content='").append(content).append('\'');
         sb.append(", questionId=").append(questionId);
-        sb.append(", selected=").append(selected);
-        sb.append(", remark='").append(remark).append('\'');
         sb.append('}');
         return sb.toString();
     }

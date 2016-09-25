@@ -28,6 +28,9 @@ public class ServiceQuestionServiceImpl implements ServiceQuestionService {
 
     @Override
     public void add(Long serviceId, List<Long> questionIds) {
+        //delete old
+        this.deleteByServiceId(serviceId);
+        //add new
         for (Long questionId : questionIds) {
             this.add(serviceId,questionId);
         }

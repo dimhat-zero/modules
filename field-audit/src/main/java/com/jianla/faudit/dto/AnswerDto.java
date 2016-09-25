@@ -1,7 +1,6 @@
 package com.jianla.faudit.dto;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author : zwj
@@ -11,9 +10,7 @@ public class AnswerDto {
 
     private Long id;
 
-    private List<QuestionDto> questionDtos;
-
-    private List<QuestionAnswer> questionAnswers;
+    private String content;
 
     private Date gmtCreate;
 
@@ -35,20 +32,12 @@ public class AnswerDto {
         this.fauditId = fauditId;
     }
 
-    public List<QuestionDto> getQuestionDtos() {
-        return questionDtos;
+    public String getContent() {
+        return content;
     }
 
-    public void setQuestionDtos(List<QuestionDto> questionDtos) {
-        this.questionDtos = questionDtos;
-    }
-
-    public List<QuestionAnswer> getQuestionAnswers() {
-        return questionAnswers;
-    }
-
-    public void setQuestionAnswers(List<QuestionAnswer> questionAnswers) {
-        this.questionAnswers = questionAnswers;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Date getGmtCreate() {

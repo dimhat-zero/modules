@@ -16,9 +16,23 @@ public class QuestionType {
     //枚举所有类型，跟下标对应
     private static final QuestionType[] values = {RADIO,CHECK,QA};
 
-    private final short code;
+    private Short code;
 
-    private final String name;
+    private String name;
+
+    /*
+     * 序列化妥协（无参构造和set方法）
+     */
+    public QuestionType() {
+    }
+
+    public void setCode(Short code) {
+        this.code = code;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     //私有构造外部无法创建
     private QuestionType(int code,String name) {
@@ -32,7 +46,7 @@ public class QuestionType {
     }
 
     //只提供getter方法
-    public short getCode() {
+    public Short getCode() {
         return code;
     }
 
@@ -42,9 +56,10 @@ public class QuestionType {
 
     @Override
     public String toString() {
-        return "QuestionType{" +
-                "code=" + code +
-                ", name='" + name + '\'' +
-                '}';
+        final StringBuilder sb = new StringBuilder("QuestionType{");
+        sb.append("code=").append(code);
+        sb.append(", name='").append(name).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

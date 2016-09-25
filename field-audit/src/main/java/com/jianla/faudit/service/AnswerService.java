@@ -1,5 +1,7 @@
 package com.jianla.faudit.service;
 
+import com.jianla.faudit.dto.AnswerDto;
+
 /**
  * @author : zwj
  * @data : 2016/9/21
@@ -8,31 +10,27 @@ public interface AnswerService {
 
     /**
      * 提交问卷回答
-     * 理论上提交的是文件id，和答案，后台进行校验
-     *
-     * @param fauditId
-     * @param questionAnswers 所选选项
      */
-   // Answer submitAnswer(Long fauditId, List<QuestionAnswer> questionAnswers);
+    void submit(Long fauditId,String content);
 
     /**
-     * 提交问卷答案
-     * @param qnId
-     * @param options
-     * @param version 版本号，即更新时间
-     */
-    //Answer submitAnswer(Long qnId, List<OptionDto> options,long version);
-
-    /**
-     * 修改问卷回答
-     */
-    //void modifyAnswer(Long id, List<OptionDto> options);
-
-    /**
-     * 查看问卷回答
+     * 修改答案
      * @param id
-     * @return
+     * @param content
      */
-   // QuestionnaireDto getAnswerById(Long id);
+    void modify(Long id, String content);
+
+    /**
+     * 得到一份答案
+     * @param id
+     * @return 答案对象
+     */
+    AnswerDto getById(Long id);
+
+    /**
+     * 删除一份答案 机构操作
+     * @param id
+     */
+    void deleteById(Long id);
 
 }

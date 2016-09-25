@@ -14,10 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,11 +41,12 @@ public class QuestionController {
 
     @RequestMapping(value = "add",method = RequestMethod.GET)
     public String add(){
-        return "faudit/question_add";
+        return "faudit/question_edit";
     }
 
     @RequestMapping(value="{id}/edit",method = RequestMethod.GET)
-    public String edit(@PathVariable("id")Long id){
+    public String edit(@PathVariable("id")Long id,Model model){
+        model.addAttribute("id",id);
         return "faudit/question_edit";
     }
 
@@ -58,6 +57,8 @@ public class QuestionController {
     @ResponseBody
     public JsonResult list(SessionInfo sessionInfo, Page<QuestionDto> page,QuestionDto question){
         question.setOrgId(sessionInfo.getOrgnizationId());
+        page.setOrderBy("gmtCreate");
+        page.setOrder(Page.DESC);
         page = questionService.find(page, question);
         JsonResult result = new JsonResult();
         result.setData(page);
@@ -82,7 +83,7 @@ public class QuestionController {
 
     @RequestMapping(value="add",method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult doAdd(SessionInfo sessionInfo, QuestionForm form){
+    public JsonResult doAdd(SessionInfo sessionInfo,@RequestBody QuestionForm form){
         try {
             questionService.create(sessionInfo.getOrgnizationId(),form.getContent(),form.getType(),form.getOptions());
             return JsonResult.OK;
@@ -94,9 +95,9 @@ public class QuestionController {
 
     @RequestMapping(value = "{id}/edit",method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult doEdit(SessionInfo sessionInfo,@PathVariable("id")Long id,QuestionForm form){
+    public JsonResult doEdit(SessionInfo sessionInfo,@PathVariable("id")Long id,@RequestBody QuestionForm form){
         try {
-            Question question = questionService.getById(form.getId());
+            Question question = questionService.getById(id);
             AuthUtil.assertEqual(sessionInfo.getOrgnizationId(),question.getOrgId());
 
             questionService.update(id,form.getContent(),form.getType(),form.getOptions());

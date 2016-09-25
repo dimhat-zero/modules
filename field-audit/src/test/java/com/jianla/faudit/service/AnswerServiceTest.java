@@ -21,7 +21,7 @@ public class AnswerServiceTest extends ServiceTestBase {
     public void submit(){
         List<OptionDto> options = new ArrayList<>();
         options.add(new OptionDto(40L));
-        options.add(new OptionDto(42L,"我自已填的"));
+        //options.add(new OptionDto(42L,"我自已填的"));
         //answerService.submitAnswer(3L,options);
     }
 
@@ -29,7 +29,7 @@ public class AnswerServiceTest extends ServiceTestBase {
     public void modify(){
         List<OptionDto> options = new ArrayList<>();
         options.add(new OptionDto(43L));
-        options.add(new OptionDto(42L,"我自已填的修改"));
+        //options.add(new OptionDto(42L,"我自已填的修改"));
     }
 
     @Test
